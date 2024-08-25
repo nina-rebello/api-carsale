@@ -25,7 +25,7 @@ public class AuthService {
             throw new RuntimeException("Invalid password");
         }
 
-        return tokenService.create(user.getUsername(), user.getId().toString(), user.getRole());
+        return tokenService.create(user);
 
     }
 
