@@ -7,6 +7,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 public class SecurityConfig {
@@ -15,9 +16,7 @@ public class SecurityConfig {
     public SecurityFilterChain config(HttpSecurity http) throws Exception{
         http
             .authorizeHttpRequests(auth -> auth
-                    .requestMatchers(HttpMethod.POST, "/login").permitAll()
-                    .requestMatchers(HttpMethod.GET, "/comments").permitAll()
-                    .anyRequest().authenticated()
+                    .anyRequest().permitAll()
             )
             .csrf(csrf -> csrf.disable()
         );
