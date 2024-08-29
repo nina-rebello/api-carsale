@@ -23,7 +23,7 @@ public class TokenService {
         ALGORITHM = Algorithm.HMAC256(secret);
     }
 
-    public Token create(User user){
+    public Token create(User user) {
         var expires = LocalDateTime.now().plusMinutes(10).toInstant(ZoneOffset.ofHours(-3));
 
         var token = JWT.create()
@@ -36,4 +36,15 @@ public class TokenService {
         return new Token(token, user.getName(), user.getId().toString(), user.getRole());
     }
 
+    public User getUserFromToken(String token) {
+        var id = JWT.require(ALGORITHM)
+                .build()
+                .verify(token)
+                .getSubject();
+
+        return userRepository
+                .findById(Long.parseLong(id))
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+    }
 }
